@@ -6,12 +6,32 @@ import Appointments from "../models/MedJournal";
 
 const routes = express.Router();
 
+
+//this is the backend side that is collecting from our database!
+//
 routes.get("/medjournal", async (req, res) => {
     try {
         const client = await getClient();
-        const results = await client.db().collection("shoutouts")
-            .find().toArray();
-        res.json(results); // send JSON results
+        const apptResults = await client
+        .db()
+        .collection<Appointments>("appointments")
+        .find()
+        .toArray();
+        res.json(apptResults); // send JSON results
+        } catch (err) {
+        console.error("FAIL", err);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+});
+routes.get("/mednotes", async (req, res) => {
+    try {
+        const client = await getClient();
+        const notesResults = await client
+        .db()
+        .collection<Notes>("notes")
+        .find()
+        .toArray();
+        res.json(notesResults); // send JSON results
     } catch (err) {
         console.error("FAIL", err);
         res.status(500).json({ message: "Internal Server Error" });

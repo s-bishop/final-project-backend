@@ -9,6 +9,7 @@ export default interface Notes {
 export default interface Appointments {
     _id?: ObjectId,
     date: string,
+    time:string,
     doctor: string,
     reason: string,
     questions:string

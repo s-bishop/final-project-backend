@@ -23,6 +23,20 @@ routes.get("/medjournal", async (req, res) => {
         res.status(500).json({ message: "Internal Server Error" });
     }
 });
+routes.post("/appointments", async (req, res) => {
+    try {
+        const appointment = req.body as Appointments
+        const client = await getClient();
+        await client
+        .db()
+        .collection<Appointments>("appointments")
+        .insertOne(appointment)
+        res.status(201).json(appointment); // send JSON results
+        } catch (err) {
+        console.error("FAIL", err);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+});
 routes.get("/mednotes", async (req, res) => {
     try {
         const client = await getClient();
@@ -37,5 +51,6 @@ routes.get("/mednotes", async (req, res) => {
         res.status(500).json({ message: "Internal Server Error" });
     }
 });
+
 
 export default routes;
